@@ -42,6 +42,7 @@
         <div class="grupo">
             <input type="password" placeholder="informe sua senha">
             <span class="erro">a senha precisa ter 8 caracteres </span>
+            <a class="alternarSenha">o</a>
         </div>
 
         <div class="grupo">
@@ -83,6 +84,58 @@
             }
         }
         inputs[1].addEventListener('input', validaEmail)
+
+        function validaSenha(){
+            const senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+            if(!senhaRegex.test(inputs[2].value)){
+                erros[2].style.display = 'block'
+                inputs[2].classList.add('invalido')
+            } else {
+                erros[2].style.display = 'none'
+                inputs[2].classList.remove('invalido')
+            }
+        }
+        inputs[2].addEventListener('input', validaSenha)
+
+        function validaConfirmacao(){
+            if(inputs[3].value!== inputs[2].value){
+                erros[3].style.display = 'block'
+                inputs[3].classList.add('invalido')
+            } else {
+                erros[3].style.display = 'none'
+                inputs[3].classList.remove('invalido')
+            }
+        }
+        inputs[3].addEventListener('input', validaConfirmacao)
+
+        document.querySelector('form').addEventListener('submit', (evento)=>{
+            evento.preventDefault()
+            let valido = true
+
+            inputs.forEach((input)=>{
+                if(input.classList.contains('invalido')){
+                    valido = false
+                }
+            })
+
+            if(valido){
+                alert("Formulário enviado com sucesso!")
+            } else {
+                alert("Por favor, corrija os erros.")
+            }
+            validaNome()
+            validaEmail()
+            validaSenha()
+            validaConfirmacao()
+        });
+
+        document.querySelector('.alternarSenha').addEventListener('click', ()=>{
+            const tipoAtual = inputs[2].getAttribute('type');
+            const tipo = tipoAtual ==='password' ? 'text' : 'password';
+            inputs[2].setAttribute('type', tipo);
+        }
+    
+    )
 
     </script>
 
